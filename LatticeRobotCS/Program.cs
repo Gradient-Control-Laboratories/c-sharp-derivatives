@@ -28,7 +28,7 @@ ImplicitBox3d box = new ImplicitBox3d() {
     Box = new Box3d(bbox)
 };
 
-ImplicitFromCode unitcell = new("", bbox);
+ImplicitUnitCell unitcell = new("", 2);
 
 generateMeshF(new ImplicitIntersection3d() { A = unitcell, B = box }, 128, "LatticeRobot.obj");
 
