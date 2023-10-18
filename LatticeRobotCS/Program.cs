@@ -1,8 +1,5 @@
 ﻿using g4;
 
-// See https://aka.ms/new-console-template for more information on simplified console programming
-Console.WriteLine("Computing mesh...");
-
 // generateMeshF() meshes the input implicit function at
 // the given cell resolution, and writes out the resulting mesh    
 Action<BoundedImplicitFunction3d, int, string> generateMeshF = (root, numcells, path) => {
@@ -18,17 +15,14 @@ Action<BoundedImplicitFunction3d, int, string> generateMeshF = (root, numcells, 
     StandardMeshWriter.WriteMesh(path, c.Mesh, WriteOptions.Defaults);   // write mesh
 };
 
-ImplicitSphere3d sphere = new() {
-    Origin = Vector3d.Zero, Radius = 1.0
-};
-
 AxisAlignedBox3d bbox = new(-5 * Vector3d.One, 5 * Vector3d.One);
 
 ImplicitBox3d box = new ImplicitBox3d() {
     Box = new Box3d(bbox)
 };
 
-ImplicitUnitCell unitcell = new("", 2);
+ImplicitUnitCell unitcell = new(2);
 
+Console.WriteLine("Computing mesh...");
 generateMeshF(new ImplicitIntersection3d() { A = unitcell, B = box }, 128, "LatticeRobot.obj");
 

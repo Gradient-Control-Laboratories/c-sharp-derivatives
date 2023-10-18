@@ -1,6 +1,6 @@
 using g4;
 
-public partial class MyImplicit {
+public partial class DiamondImplicit {
     int LatticeIndex;
     double size_x;
     double size_y;
@@ -12,7 +12,7 @@ public partial class MyImplicit {
     double drop_z;
     double gyroid;
 
-    public MyImplicit(int latticeIndex, Dictionary<string, double> parameters) {
+    public DiamondImplicit(int latticeIndex, Dictionary<string, double> parameters) {
         LatticeIndex = latticeIndex;
 
         size_x = parameters["size_x"];

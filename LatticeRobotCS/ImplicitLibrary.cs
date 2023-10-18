@@ -43,7 +43,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 using g4;
-public partial class MyImplicit {
+public partial class DiamondImplicit {
 
     const double PI = 3.14159265358979;
     const double SQRT2 = 1.41421356237;

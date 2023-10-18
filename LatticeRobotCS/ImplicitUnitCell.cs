@@ -4,9 +4,9 @@ public class ImplicitUnitCell : BoundedImplicitFunction3d {
     public int LatticeIndex;
     public Dictionary<string, double> Parameters { get; set; }
     
-    private MyImplicit myImplicit;
+    private DiamondImplicit diamondImplicit;
 
-    public ImplicitUnitCell(string code, int latticeIndex) {
+    public ImplicitUnitCell(int latticeIndex) {
         Parameters = new Dictionary<string, double>();
         Parameters["size_x"] = 10.0;
         Parameters["size_y"] = 10.0;
@@ -19,15 +19,14 @@ public class ImplicitUnitCell : BoundedImplicitFunction3d {
         Parameters["gyroid"] = 0.0;
 
         LatticeIndex = latticeIndex;
-        myImplicit = new MyImplicit(latticeIndex, Parameters);
+        diamondImplicit = new DiamondImplicit(latticeIndex, Parameters);
     }
 
     public double Value(ref Vector3d p) {
-        return myImplicit.IndexedLattice(p).Distance;
+        return diamondImplicit.IndexedLattice(p).Distance;
     }
 
-    public AxisAlignedBox3d Bounds()
-    {
+    public AxisAlignedBox3d Bounds() {
         var halfsize = new Vector3d(Parameters["size_x"], Parameters["size_y"], Parameters["size_z"]) * 0.5;
         return new AxisAlignedBox3d(-halfsize, halfsize);
     }
