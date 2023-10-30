@@ -13,8 +13,7 @@ internal class Program {
         else
             unitCellLocation = args[0];
         
-
-        var unitCell = new ImplicitUnitCell(Path.Combine(@"..\..\..\..\", unitCellLocation), 2);
+        var unitCell = new ImplicitUnitCell(Path.Combine(@"..\..\..\..\Samples\", unitCellLocation), 2);
 
         // With this implementation of ImplicitUnitCell, we can only set constant parameters.  
         unitCell.SetParameter("gyroid", 0.25);

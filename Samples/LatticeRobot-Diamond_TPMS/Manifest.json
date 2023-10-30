@@ -1,0 +1,70 @@
+{
+  "description": "Diamond TPMS that transitions to gyroid.",
+  "references": [],
+  "createdBy": "setup@latticerobot.com",
+  "cSharpCode": "Diamond_TPMS.cs",
+  "cSharpLibrary": "LRLibrary.cs",
+  "tags": [
+    "TPMS"
+  ],
+  "media": [],
+  "name": "Diamond TPMS",
+  "parameters": [
+    {
+      "maxValue": 15,
+      "minValue": 5,
+      "defaultValue": 10,
+      "name": "size_x"
+    },
+    {
+      "maxValue": 15,
+      "minValue": 5,
+      "defaultValue": 10,
+      "name": "size_y"
+    },
+    {
+      "maxValue": 15,
+      "minValue": 1,
+      "defaultValue": 10,
+      "name": "size_z"
+    },
+    {
+      "maxValue": 2.5,
+      "minValue": -2.5,
+      "defaultValue": 0,
+      "name": "bias"
+    },
+    {
+      "maxValue": 5,
+      "minValue": 0,
+      "defaultValue": 1,
+      "name": "thickness"
+    },
+    {
+      "maxValue": 1,
+      "minValue": -1,
+      "defaultValue": 1,
+      "name": "drop_x"
+    },
+    {
+      "maxValue": 1,
+      "minValue": -1,
+      "defaultValue": 1,
+      "name": "drop_y"
+    },
+    {
+      "maxValue": 1,
+      "minValue": -1,
+      "defaultValue": 1,
+      "name": "drop_z"
+    },
+    {
+      "maxValue": 1,
+      "minValue": 0,
+      "defaultValue": 0,
+      "name": "gyroid"
+    }
+  ],
+  "profileImage": "lattices/Cd5gMqFpGuzktrHU3BiY/profile-image.png",
+  "defaultVariant": "thin"
+}

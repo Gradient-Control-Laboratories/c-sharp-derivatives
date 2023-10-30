@@ -47,7 +47,10 @@ using System;
 using System.Runtime;
 using System.Collections.Generic;
 public partial class LRImplicit  {
-
+    public static double Value(ref Vector3d p) {
+        return IndexedLattice(p).Distance;
+    }
+    
     const double PI = 3.14159265358979;
     const double SQRT2 = 1.41421356237;
     const double SQRT3 = 1.73205080757;

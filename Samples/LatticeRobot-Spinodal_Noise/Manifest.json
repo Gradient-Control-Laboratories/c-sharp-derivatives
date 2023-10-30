@@ -1,14 +1,14 @@
 {
-  "description": "Diamond TPMS that transitions to gryoid.",
-  "references": [],
+  "description": "Spinodal Noise with 64 generators.",
+  "references": ["https://doi.org/10.1038/s41524-020-0341-6"],
   "createdBy": "setup@latticerobot.com",
-  "cSharpCode": "Diamond_TPMS.cs",
+  "cSharpCode": "Spinodal_Noise.cs",
   "cSharpLibrary": "LRLibrary.cs",
   "tags": [
-    "TPMS"
+    "Noise"
   ],
   "media": [],
-  "name": "Diamond TPMS",
+  "name": "Spinodal Noise",
   "parameters": [
     {
       "maxValue": 15,
@@ -42,27 +42,33 @@
     },
     {
       "maxValue": 1,
-      "minValue": -1,
-      "defaultValue": 1,
-      "name": "drop_x"
-    },
-    {
-      "maxValue": 1,
-      "minValue": -1,
-      "defaultValue": 1,
-      "name": "drop_y"
-    },
-    {
-      "maxValue": 1,
-      "minValue": -1,
-      "defaultValue": 1,
-      "name": "drop_z"
+      "minValue": 0,
+      "defaultValue": 0,
+      "name": "anisotropy"
     },
     {
       "maxValue": 1,
       "minValue": 0,
       "defaultValue": 0,
-      "name": "gyroid"
+      "name": "direction_x"
+    },
+    {
+      "maxValue": 1,
+      "minValue": 0,
+      "defaultValue": 0,
+      "name": "direction_y"
+    },
+    {
+      "maxValue": 1,
+      "minValue": 0,
+      "defaultValue": 1,
+      "name": "direction_z"
+    },
+    {
+      "maxValue": 10,
+      "minValue": 0,
+      "defaultValue": 0,
+      "name": "seed"
     }
   ],
   "profileImage": "lattices/Cd5gMqFpGuzktrHU3BiY/profile-image.png",

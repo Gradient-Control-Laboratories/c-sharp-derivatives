@@ -40,9 +40,9 @@ public class ImplicitUnitCell : BoundedImplicitFunction3d {
         if (unitCellType == null) 
             throw new Exception("Error compiling unit cell.");
 
-        var latticeIndexField = unitCellType.GetField("LatticeIndex");
+        var latticeIndexField = unitCellType.GetField("VariantIndex");
         if (latticeIndexField is null)
-            throw new Exception("Error getting LatticeIndex field.");
+            throw new Exception("Error getting VariantIndex field.");
 
         foreach (var p in Parameters.Values) {
             SetParameter(p.name, p.defaultValue);
@@ -54,7 +54,7 @@ public class ImplicitUnitCell : BoundedImplicitFunction3d {
 
     }
 
-    public int LatticeIndex {
+    public int VariantIndex {
         get => (int)latticeIndexField.GetValue(null);
         set => latticeIndexField.SetValue(null, value);
     }

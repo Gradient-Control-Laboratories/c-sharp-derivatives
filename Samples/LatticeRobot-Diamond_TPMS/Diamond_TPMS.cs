@@ -2,7 +2,7 @@ using g4;
 using System.Collections.Generic;
 
 public partial class LRImplicit  {
-    public static int LatticeIndex;
+    public static int VariantIndex;
 
     public static double size_x;
     public static double size_y;
@@ -13,25 +13,6 @@ public partial class LRImplicit  {
     public static double drop_y;
     public static double drop_z;
     public static double gyroid;
-
-    public LRImplicit() {}
-    public static void Initialize(int latticeIndex, Dictionary<string, ImplicitParameter> parameters) {
-        LatticeIndex = latticeIndex;
-
-        size_x = parameters["size_x"].defaultValue;
-        size_y = parameters["size_y"].defaultValue;
-        size_z = parameters["size_z"].defaultValue;
-        bias = parameters["bias"].defaultValue;
-        thickness = parameters["thickness"].defaultValue;
-        drop_x = parameters["drop_x"].defaultValue;
-        drop_y = parameters["drop_y"].defaultValue;
-        drop_z = parameters["drop_z"].defaultValue;
-        gyroid = parameters["gyroid"].defaultValue;
-    }
-
-    public static double Value(ref Vector3d p) {
-        return IndexedLattice(p).Distance;
-    }
 
     static double supremum = SQRT2;
 
@@ -205,7 +186,7 @@ public partial class LRImplicit  {
     }
 
     public static Implicit IndexedLattice(Vector3d p) {
-        switch (LatticeIndex) {
+        switch (VariantIndex) {
             case 0: return solidLattice(p);
             case 1: return inverseLattice(p);
             case 2: return thinLattice(p);
