@@ -1,34 +1,22 @@
 using g4;
+using System.Collections.Generic;
 
-public partial class DiamondImplicit {
-    int LatticeIndex;
-    double size_x;
-    double size_y;
-    double size_z;
-    double bias;
-    double thickness;
-    double drop_x;
-    double drop_y;
-    double drop_z;
-    double gyroid;
+public partial class LRImplicit  {
+    public static int VariantIndex;
 
-    public DiamondImplicit(int latticeIndex, Dictionary<string, double> parameters) {
-        LatticeIndex = latticeIndex;
+    public static double size_x;
+    public static double size_y;
+    public static double size_z;
+    public static double bias;
+    public static double thickness;
+    public static double drop_x;
+    public static double drop_y;
+    public static double drop_z;
+    public static double gyroid;
 
-        size_x = parameters["size_x"];
-        size_y = parameters["size_y"];
-        size_z = parameters["size_z"];
-        bias = parameters["bias"];
-        thickness = parameters["thickness"];
-        drop_x = parameters["drop_x"];
-        drop_y = parameters["drop_y"];
-        drop_z = parameters["drop_z"];
-        gyroid = parameters["gyroid"];
-    }
+    static double supremum = SQRT2;
 
-    double supremum = SQRT2;
-
-    Implicit mix(Implicit a, double b, double t) {
+    static Implicit mix(Implicit a, double b, double t) {
         double _mix_000 = 1.0 - t;
         Implicit _mix_001 = Multiply(_mix_000, a);
         double _mix_002 = t * b;
@@ -36,7 +24,7 @@ public partial class DiamondImplicit {
         return _mix_003;
     }
 
-    Implicit solidLattice(Vector3d p) {
+    static Implicit solidLattice(Vector3d p) {
         double _tpms_000 = 1.0 - gyroid;
         Implicit x = new Implicit(p.x, new Vector3d(1.0, 0.0, 0.0));
         double halfsizeX = size_x * 0.5;
@@ -87,7 +75,7 @@ public partial class DiamondImplicit {
         return solid;
     }
 
-    Implicit inverseLattice(Vector3d p) {
+    static Implicit inverseLattice(Vector3d p) {
         double _tpms_000 = 1.0 - gyroid;
         Implicit x = new Implicit(p.x, new Vector3d(1.0, 0.0, 0.0));
         double halfsizeX = size_x * 0.5;
@@ -138,7 +126,7 @@ public partial class DiamondImplicit {
         return inverse;
     }
 
-    Implicit thinLattice(Vector3d p) {
+    static Implicit thinLattice(Vector3d p) {
         double _tpms_000 = 1.0 - gyroid;
         Implicit x = new Implicit(p.x, new Vector3d(1.0, 0.0, 0.0));
         double halfsizeX = size_x * 0.5;
@@ -191,14 +179,14 @@ public partial class DiamondImplicit {
         return thin;
     }
 
-    Implicit twinLattice(Vector3d p) {
+    static Implicit twinLattice(Vector3d p) {
         Implicit thin = thinLattice(p);
         Implicit twin = Multiply(-1.0, thin);
         return twin;
     }
 
-    public Implicit IndexedLattice(Vector3d p) {
-        switch (LatticeIndex) {
+    public static Implicit IndexedLattice(Vector3d p) {
+        switch (VariantIndex) {
             case 0: return solidLattice(p);
             case 1: return inverseLattice(p);
             case 2: return thinLattice(p);
@@ -207,7 +195,7 @@ public partial class DiamondImplicit {
         return Sphere(p, new Vector3d(0.0), 5.0);
     }
 
-    public Implicit ScaledLattice(Vector3d scaledP) {
+    public static Implicit ScaledLattice(Vector3d scaledP) {
         Vector3d p = (scaledP - center) * 10.0;
         Implicit lattice = IndexedLattice(p);
         return Divide(lattice, 10.0);
