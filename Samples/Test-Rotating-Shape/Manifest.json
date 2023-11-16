@@ -1,0 +1,64 @@
+{
+  "description": "A simple column that with deriviates on rotation.",
+  "references": [],
+  "createdBy": "blake@gradientcontrol.com",
+  "cSharpCode": "Column.cs",
+  "cSharpLibrary": "LRLibrary.cs",
+  "tags": [
+    "Test"
+  ],
+  "media": [],
+  "name": "Rotating Column",
+  "parameters": [
+    {
+      "maxValue": 15,
+      "minValue": 5,
+      "defaultValue": 10,
+      "name": "size_x"
+    },
+    {
+      "maxValue": 15,
+      "minValue": 5,
+      "defaultValue": 10,
+      "name": "size_y"
+    },
+    {
+      "maxValue": 15,
+      "minValue": 1,
+      "defaultValue": 10,
+      "name": "size_z"
+    },
+    {
+      "maxValue": 2.5,
+      "minValue": -2.5,
+      "defaultValue": 0,
+      "name": "bias"
+    },
+    {
+      "maxValue": 5,
+      "minValue": 0,
+      "defaultValue": 1,
+      "name": "thickness"
+    },
+    {
+      "maxValue": 0,
+      "minValue": 10,
+      "defaultValue": 5,
+      "name": "length"
+    },
+    {
+      "maxValue": 1,
+      "minValue": -1,
+      "defaultValue": 0,
+      "name": "rotate A"
+    },
+    {
+      "maxValue": 1,
+      "minValue": -1,
+      "defaultValue": 0,
+      "name": "rotate B"
+    }
+  ],
+  "profileImage": "lattices/Cd5gMqFpGuzktrHU3BiY/profile-image.png",
+  "defaultVariant": "thin"
+}

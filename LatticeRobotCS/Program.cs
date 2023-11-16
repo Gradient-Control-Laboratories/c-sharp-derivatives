@@ -6,7 +6,7 @@ using g4;
 
 internal class Program {
     private static int Main(string[] args) {
-        var unitCellLocation = "LatticeRobot-Diamond_TPMS";
+        var unitCellLocation = "Test-Rotating-Shape";
 
         if (args.Length == 0) 
             Console.WriteLine($"Using default unit cell: {unitCellLocation}.");
@@ -16,7 +16,10 @@ internal class Program {
         var unitCell = new ImplicitUnitCell(Path.Combine(@"..\..\..\..\Samples\", unitCellLocation), 2);
 
         // With this implementation of ImplicitUnitCell, we can only set constant parameters.  
-        unitCell.SetParameter("gyroid", 0.25);
+        unitCell.SetParameter("thickness", 2);
+        unitCell.SetParameter("length", 5);
+        unitCell.SetParameter("bias", 2);
+        // unitCell.VariantIndex = 2;
 
         Console.WriteLine("Computing mesh...");
 

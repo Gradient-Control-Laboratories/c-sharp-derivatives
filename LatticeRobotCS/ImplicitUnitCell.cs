@@ -11,6 +11,7 @@ public class ImplicitUnitCell : BoundedImplicitFunction3d {
     private FieldInfo latticeIndexField;
     Type unitCellType;
     MethodInfo valueMethod;
+    const string VariantIndexName = "VariantIndex";
 
     public Dictionary<string, ImplicitParameter> Parameters { get; private set; }
 
@@ -40,7 +41,7 @@ public class ImplicitUnitCell : BoundedImplicitFunction3d {
         if (unitCellType == null) 
             throw new Exception("Error compiling unit cell.");
 
-        var latticeIndexField = unitCellType.GetField("VariantIndex");
+        var latticeIndexField = unitCellType.GetField(VariantIndexName);
         if (latticeIndexField is null)
             throw new Exception("Error getting VariantIndex field.");
 
