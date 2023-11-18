@@ -12,6 +12,12 @@ public class ImplicitFromCode : BoundedImplicitFunction3d{
         return IndexedLattice(p).Distance;
     }
 
+    public double Value(ref Vector3d p, out double rotateADerivative) {
+        var value = IndexedLattice(p).Distance;
+        rotateADerivative = rotateADeriv;
+        return value;
+    }
+
     public AxisAlignedBox3d Bounds()
     {
         return BBox;
@@ -116,7 +122,6 @@ public class ImplicitFromCode : BoundedImplicitFunction3d{
 
     static Implicit rotatedLattice(Vector3d p)
     {
-        // var rotation = Matrix3d.AxisAngleD(new Vector3d(1.0, 0.0, 0.0), rotateA * 180);  // API is in degrees
         var sA = Math.Sin(PI * rotateA);
         var cA = Math.Cos(PI * rotateA);
         var rotation = new Matrix3d(1, 0, 0, 0, cA, -sA, 0, sA, cA);
@@ -127,8 +132,7 @@ public class ImplicitFromCode : BoundedImplicitFunction3d{
         var rotatedImplicit = latticeLattice(rotatedP);
 
         rotateADeriv = Vector3d.Dot(rotatedImplicit.Gradient, rotatedPDeriv);
-        return new Implicit(rotateADeriv, rotatedImplicit.Gradient);
-    //    rotateADeriv = latticeLattice(p).Gradient.Length;
+        //return new Implicit(rotateADeriv, rotatedImplicit.Gradient);  // test derivative
         return rotatedImplicit;
     }
 
