@@ -1,6 +1,6 @@
 using g4;
 
-public class ImplicitFromCode : BoundedImplicitFunction3d{
+public class ImplicitFromCode : BoundedImplicitFunction3d {
     public string Code;
     public AxisAlignedBox3d BBox;
 
@@ -25,18 +25,74 @@ public class ImplicitFromCode : BoundedImplicitFunction3d{
 
     /////////////
     ///
-    public static int VariantIndex;
-    public static double size_x;
-    public static double size_y;
-    public static double size_z;
-    public static double bias;
-    public static double thickness;
-    public static double length;
-    public static double rotateA;
-    public static double rotateB;
+    public int VariantIndex;
+    public double size_x;
+    public double size_y;
+    public double size_z;
+    public double bias;
+    public double thickness;
+    public double length;
+    public double rotateA;
+    public double rotateB;
 
-    public static double rotateADeriv;
-    public static double rotateBDeriv;
+    public double rotateADeriv;
+    public double rotateBDeriv;
+
+    Implicit LatticeLattice(Vector3d p)
+    {
+        Implicit x = new Implicit(p.x, new Vector3d(1.0, 0.0, 0.0));
+        Implicit y = new Implicit(p.y, new Vector3d(0.0, 1.0, 0.0));
+        Implicit z = new Implicit(p.z, new Vector3d(0.0, 0.0, 1.0));
+        double halfLength = length * 0.5;
+        double _beam_000 = -1.0 * halfLength;
+        Implicit beam = BoxCenter(p, Vector3d.Zero, new Vector3d(2.0, 5.0, 2.0));
+        //Implicit beam = LineSegment(x, y, z, 0.0, 0.0, _beam_000, 0.0, 0.0, halfLength);
+        Implicit lattice = Subtract(beam, bias);
+        return lattice;
+    }
+
+    Implicit RotatedLattice(Vector3d p)
+    {
+        var sA = Math.Sin(PI * rotateA);
+        var cA = Math.Cos(PI * rotateA);
+        var rotation = new Matrix3d(1, 0, 0, 0, cA, -sA, 0, sA, cA);
+        var rotationDeriv = new Matrix3d(1, 0, 0, 0, -sA, -cA, 0, cA, -sA);
+
+        var rotatedP = rotation * p;
+        var rotatedPDeriv = rotationDeriv * p;
+        var rotatedImplicit = LatticeLattice(rotatedP);
+
+        rotateADeriv = Vector3d.Dot(rotatedImplicit.Gradient, rotatedPDeriv);
+        // return new Implicit(rotateADeriv, rotatedImplicit.Gradient);  // uncomment to test derivative
+        return rotatedImplicit;
+    }
+
+    public Implicit IndexedLattice(Vector3d p)
+    {
+        Implicit lattice = RotatedLattice(p);
+        Implicit solid = lattice;
+        if (VariantIndex == 0) return solid;
+        Implicit inverse = Multiply(-1.0, lattice);
+        if (VariantIndex == 1) return inverse;
+        Implicit _thin_000 = Abs(lattice);
+        double _thin_001 = thickness * 0.5;
+        Implicit thin = Subtract(_thin_000, _thin_001);
+        if (VariantIndex == 2) return thin;
+        Implicit twin = Multiply(-1.0, thin);
+        if (VariantIndex == 3) return twin;
+        Implicit unknown = Sphere(p, new Vector3d(0.0), 0.5);
+        return unknown;
+    }
+
+    public Implicit ScaledLattice(Vector3d scaledP)
+    {
+        Vector3d p = (scaledP - center) * 10.0;
+        Implicit result = IndexedLattice(p);
+        Implicit indexed = Divide(result, 10.0);
+        return indexed;
+    }
+
+// // // //
 
     static Implicit vdot(Implicit ax, Implicit ay, Implicit az, Implicit bx, Implicit by, Implicit bz)
     {
@@ -107,65 +163,7 @@ public class ImplicitFromCode : BoundedImplicitFunction3d{
         return _LineSegment_000;
     }
 
-    static Implicit latticeLattice(Vector3d p)
-    {
-        Implicit x = new Implicit(p.x, new Vector3d(1.0, 0.0, 0.0));
-        Implicit y = new Implicit(p.y, new Vector3d(0.0, 1.0, 0.0));
-        Implicit z = new Implicit(p.z, new Vector3d(0.0, 0.0, 1.0));
-        double halfLength = length * 0.5;
-        double _beam_000 = -1.0 * halfLength;
-        Implicit beam = BoxCenter(p, Vector3d.Zero, new Vector3d(2.0, 2.0, 5.0));
-        //Implicit beam = LineSegment(x, y, z, 0.0, 0.0, _beam_000, 0.0, 0.0, halfLength);
-        Implicit lattice = Subtract(beam, bias);
-        return lattice;
-    }
-
-    static Implicit rotatedLattice(Vector3d p)
-    {
-        var sA = Math.Sin(PI * rotateA);
-        var cA = Math.Cos(PI * rotateA);
-        var rotation = new Matrix3d(1, 0, 0, 0, cA, -sA, 0, sA, cA);
-        var rotationDeriv = new Matrix3d(1, 0, 0, 0, -sA, -cA, 0, cA, -sA);
-
-        var rotatedP = rotation * p;
-        var rotatedPDeriv = rotationDeriv * p;
-        var rotatedImplicit = latticeLattice(rotatedP);
-
-        rotateADeriv = Vector3d.Dot(rotatedImplicit.Gradient, rotatedPDeriv);
-        //return new Implicit(rotateADeriv, rotatedImplicit.Gradient);  // test derivative
-        return rotatedImplicit;
-    }
-
-    public static Implicit IndexedLattice(Vector3d p)
-    {
-        Implicit lattice = rotatedLattice(p);
-        Implicit solid = lattice;
-        if (VariantIndex == 0) return solid;
-        Implicit inverse = Multiply(-1.0, lattice);
-        if (VariantIndex == 1) return inverse;
-        Implicit _thin_000 = Abs(lattice);
-        double _thin_001 = thickness * 0.5;
-        Implicit thin = Subtract(_thin_000, _thin_001);
-        if (VariantIndex == 2) return thin;
-        Implicit twin = Multiply(-1.0, thin);
-        if (VariantIndex == 3) return twin;
-        Implicit unknown = Sphere(p, new Vector3d(0.0), 0.5);
-        return unknown;
-    }
-
-    public static Implicit ScaledLattice(Vector3d scaledP)
-    {
-        Vector3d p = (scaledP - center) * 10.0;
-        Implicit result = IndexedLattice(p);
-        Implicit indexed = Divide(result, 10.0);
-        return indexed;
-    }
-
-
-/// <summary>
-/// 
-/// </summary>
-
+// // // //
 
     const double PI = 3.14159265358979;
     const double SQRT2 = 1.41421356237;

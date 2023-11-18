@@ -75,7 +75,7 @@ public class ImplicitUnitCell : BoundedImplicitFunction3d {
     public double Value(ref Vector3d p) {
         double op = (double)valueMethod.Invoke(null, new object[] { p });
         var deriv = (double)rotateADerivField.GetValue(null);
-        return deriv;
+    //    return deriv;
         return op;
     }
 

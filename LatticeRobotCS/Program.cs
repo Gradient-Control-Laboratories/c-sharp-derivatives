@@ -43,6 +43,8 @@ internal class Program {
         ImplicitBox3d box = new ImplicitBox3d() { Box = new Box3d(bbox) };
         var unitCell = new ImplicitFromCode(bbox);
 
+        unitCell.rotateA = 1.0 / 6;
+
         generateMeshF(new ImplicitIntersection3d() { A = unitCell, B = box }, 128, "LatticeRobot.obj");
 
         return 0;
