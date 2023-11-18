@@ -9,9 +9,9 @@ using System.Diagnostics.Tracing;
 
 public class ImplicitUnitCell : BoundedImplicitFunction3d {
     private FieldInfo latticeIndexField;
+    private FieldInfo rotateADerivField;
     Type unitCellType;
     MethodInfo valueMethod;
-    const string VariantIndexName = "VariantIndex";
 
     public Dictionary<string, ImplicitParameter> Parameters { get; private set; }
 
@@ -41,7 +41,7 @@ public class ImplicitUnitCell : BoundedImplicitFunction3d {
         if (unitCellType == null) 
             throw new Exception("Error compiling unit cell.");
 
-        var latticeIndexField = unitCellType.GetField(VariantIndexName);
+        latticeIndexField = unitCellType.GetField("VariantIndex");
         if (latticeIndexField is null)
             throw new Exception("Error getting VariantIndex field.");
 
@@ -52,6 +52,11 @@ public class ImplicitUnitCell : BoundedImplicitFunction3d {
         valueMethod = unitCellType.GetMethod("Value");
         if (valueMethod is null)
             throw new Exception("Error getting value callback.");
+
+            
+        rotateADerivField = unitCellType.GetField("rotateADeriv");
+        if (rotateADerivField is null)
+            throw new Exception("Error getting rotateADeriv field.");
 
     }
 
@@ -68,7 +73,10 @@ public class ImplicitUnitCell : BoundedImplicitFunction3d {
     }
 
     public double Value(ref Vector3d p) {
-        return (double)valueMethod.Invoke(null, new object[] { p });
+        double op = (double)valueMethod.Invoke(null, new object[] { p });
+        var deriv = (double)rotateADerivField.GetValue(null);
+        return deriv;
+        return op;
     }
 
     public AxisAlignedBox3d Bounds() {

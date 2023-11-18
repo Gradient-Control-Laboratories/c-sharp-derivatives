@@ -1,11 +1,16 @@
 using g4;
+using System;
 
 public struct Implicit {
-    public double Distance { get; set; }
+    double distance = 0;
+    public double Distance {
+        get { return distance; }
+        set { distance = Double.IsNaN(value) ? 0 : value; }
+    }
     public Vector3d Gradient { get; set; }
 
     public Implicit(double distance, Vector3d gradient) {
-        Distance = distance;
+        this.distance = Double.IsNaN(distance) ? 0 : distance;;
         Gradient = gradient;
-    } 
+    }
 }

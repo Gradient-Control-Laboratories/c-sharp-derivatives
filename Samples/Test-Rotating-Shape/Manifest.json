@@ -50,13 +50,13 @@
       "maxValue": 1,
       "minValue": -1,
       "defaultValue": 0,
-      "name": "rotate A"
+      "name": "rotateA"
     },
     {
       "maxValue": 1,
       "minValue": -1,
       "defaultValue": 0,
-      "name": "rotate B"
+      "name": "rotateB"
     }
   ],
   "profileImage": "lattices/Cd5gMqFpGuzktrHU3BiY/profile-image.png",

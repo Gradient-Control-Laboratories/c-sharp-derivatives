@@ -3,6 +3,7 @@
 // using System.CodeDom.Compiler;
 
 using g4;
+using Microsoft.VisualBasic;
 
 internal class Program {
     private static int Main(string[] args) {
@@ -13,13 +14,13 @@ internal class Program {
         else
             unitCellLocation = args[0];
         
-        var unitCell = new ImplicitUnitCell(Path.Combine(@"..\..\..\..\Samples\", unitCellLocation), 2);
+        // var unitCell = new ImplicitUnitCell(Path.Combine(@"..\..\..\..\Samples\", unitCellLocation), 2);
 
         // With this implementation of ImplicitUnitCell, we can only set constant parameters.  
-        unitCell.SetParameter("thickness", 2);
-        unitCell.SetParameter("length", 5);
-        unitCell.SetParameter("bias", 2);
-        // unitCell.VariantIndex = 2;
+        // unitCell.SetParameter("thickness", 2);
+        // unitCell.SetParameter("length", 5);
+        // unitCell.VariantIndex = (int)LatticeVariant.thin;
+
 
         Console.WriteLine("Computing mesh...");
 
@@ -48,6 +49,8 @@ internal class Program {
         ImplicitBox3d box = new ImplicitBox3d() {
             Box = new Box3d(bbox)
         };
+
+        var unitCell = new ImplicitFromCode(bbox);
 
         generateMeshF(new ImplicitIntersection3d() { A = unitCell, B = box }, 128, "LatticeRobot.obj");
 
