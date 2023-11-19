@@ -53,10 +53,10 @@ public class ImplicitFromCode : BoundedImplicitFunction3d {
 
     Implicit RotatedLattice(Vector3d p)
     {
-        var sA = Math.Sin(PI * rotateA);
-        var cA = Math.Cos(PI * rotateA);
+        var sA = Math.Sin(rotateA);
+        var cA = Math.Cos(rotateA);
         var rotation = new Matrix3d(1, 0, 0, 0, cA, -sA, 0, sA, cA);
-        var rotationDeriv = new Matrix3d(1, 0, 0, 0, -sA, -cA, 0, cA, -sA);
+        var rotationDeriv = new Matrix3d(0, 0, 0, 0, -sA, -cA, 0, cA, -sA);
 
         var rotatedP = rotation * p;
         var rotatedPDeriv = rotationDeriv * p;
